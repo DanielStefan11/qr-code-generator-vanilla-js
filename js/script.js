@@ -1,22 +1,24 @@
 const form = document.getElementById("generate-form");
 const qr = document.getElementById("qrcode");
+const url = document.getElementById("url")
+const resetBtn = document.getElementById("reset");
 
 const onGenerateSubmit = e => {
   e.preventDefault();
 
   clearUI();
 
-  const url = document.getElementById("url").value;
+  const urlValue = url.value;
   const size = document.getElementById("size").value;
 
-  if (url === "") {
+  if (urlValue === "") {
     alert("Please enter a URL");
   } else {
     showSpinner();
 
     setTimeout(() => {
       hideSpinner();
-      generateQRCode(url, size);
+      generateQRCode(urlValue, size);
 
       setTimeout(() => {
         const saveUrl = qr.querySelector("img").src;
@@ -50,6 +52,11 @@ const clearUI = () => {
   }
 };
 
+const resetUI = () => {
+  clearUI();
+  url.value = "";
+}
+
 const createSaveBtn = saveUrl => {
   const link = document.createElement("a");
   link.id = "save-link";
@@ -63,3 +70,4 @@ const createSaveBtn = saveUrl => {
 hideSpinner();
 
 form.addEventListener("submit", onGenerateSubmit);
+resetBtn.addEventListener("click", resetUI);
